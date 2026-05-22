@@ -2,7 +2,7 @@
 
 > A futuristic, full-stack team task management platform with role-based access control, Kanban boards, and real-time project tracking.
 
-🔴 **Live Demo**: [YOUR_VERCEL_URL_HERE]
+🔴 **Live Demo**: [team-task-manager-liart-mu.vercel.app](https://team-task-manager-liart-mu.vercel.app)
 
 🟢 **Backend API**: [team-task-manager-production-c170.up.railway.app](https://team-task-manager-production-c170.up.railway.app)
 
