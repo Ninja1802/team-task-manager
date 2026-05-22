@@ -90,13 +90,28 @@ const getDashboardStats = async (req, res) => {
   try {
     const userId = req.user._id;
 
-    const myTasks = await Task.find({ assignedTo: userId });
+    // Get the projects this user has access to
+    let projects;
+    if (req.user.role === 'Admin') {
+      projects = await Project.find({}, '_id');
+    } else {
+      projects = await Project.find({
+        $or: [
+          { owner: userId },
+          { 'members.user': userId }
+        ]
+      }, '_id');
+    }
+    const projectIds = projects.map(p => p._id);
+
+    // Find tasks belonging to those projects
+    const myTasks = await Task.find({ project: { $in: projectIds } });
     const totalTasks = myTasks.length;
     const doneTasks = myTasks.filter(t => t.status === 'Done').length;
     const inProgressTasks = myTasks.filter(t => t.status === 'In Progress').length;
     const overdueTasks = myTasks.filter(t => t.dueDate && new Date(t.dueDate) < new Date() && t.status !== 'Done').length;
 
-    const recentTasks = await Task.find({ assignedTo: userId })
+    const recentTasks = await Task.find({ project: { $in: projectIds } })
       .sort({ updatedAt: -1 })
       .limit(5)
       .populate('project', 'name');
