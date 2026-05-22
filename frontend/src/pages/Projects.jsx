@@ -68,18 +68,22 @@ const Projects = () => {
             {projects.length} project{projects.length !== 1 ? 's' : ''}
           </p>
         </div>
-        <button className="btn btn-primary" onClick={() => setShowModal(true)}>
-          <Plus size={16} /> New Project
-        </button>
+        {user?.role === 'Admin' && (
+          <button className="btn btn-primary" onClick={() => setShowModal(true)}>
+            <Plus size={16} /> New Project
+          </button>
+        )}
       </div>
-
+ 
       {projects.length === 0 ? (
         <div className="empty-projects">
           <Sparkles size={48} color="var(--primary)" style={{ opacity: 0.5 }} />
-          <p>No projects yet. Create your first one!</p>
-          <button className="btn btn-primary" onClick={() => setShowModal(true)}>
-            <Plus size={16} /> Create Project
-          </button>
+          <p>{user?.role === 'Admin' ? 'No projects yet. Create your first one!' : 'No projects found.'}</p>
+          {user?.role === 'Admin' && (
+            <button className="btn btn-primary" onClick={() => setShowModal(true)}>
+              <Plus size={16} /> Create Project
+            </button>
+          )}
         </div>
       ) : (
         <div className="projects-grid">

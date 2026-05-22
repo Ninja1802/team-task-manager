@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Plus } from 'lucide-react';
 import api from '../utils/api';
 import TaskCard from '../components/TaskCard';
+import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 import './Tasks.css';
 
@@ -14,6 +15,7 @@ const Tasks = () => {
   const [showModal, setShowModal] = useState(false);
   const [editTask, setEditTask] = useState(null);
   const [form, setForm] = useState({ title: '', description: '', project: '', assignedTo: '', priority: 'Medium', dueDate: '', status: 'Todo' });
+  const { user } = useAuth();
 
   const fetchData = async () => {
     try {
@@ -102,9 +104,11 @@ const Tasks = () => {
           <h2 className="page-title">Tasks</h2>
           <p className="page-subtitle">{filteredTasks.length} tasks</p>
         </div>
-        <button className="btn btn-primary" onClick={() => { setEditTask(null); setForm({ title: '', description: '', project: '', assignedTo: '', priority: 'Medium', dueDate: '', status: 'Todo' }); setShowModal(true); }}>
-          <Plus size={16} /> New Task
-        </button>
+        {user?.role === 'Admin' && (
+          <button className="btn btn-primary" onClick={() => { setEditTask(null); setForm({ title: '', description: '', project: '', assignedTo: '', priority: 'Medium', dueDate: '', status: 'Todo' }); setShowModal(true); }}>
+            <Plus size={16} /> New Task
+          </button>
+        )}
       </div>
 
       {/* Filters */}
@@ -127,8 +131,8 @@ const Tasks = () => {
             <TaskCard
               key={task._id}
               task={task}
-              onEdit={openEdit}
-              onDelete={handleDelete}
+              onEdit={user?.role === 'Admin' ? openEdit : null}
+              onDelete={user?.role === 'Admin' ? handleDelete : null}
               onStatusChange={handleStatusChange}
             />
           ))}

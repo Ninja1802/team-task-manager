@@ -1,5 +1,6 @@
 const Project = require('../models/Project');
 const User = require('../models/User');
+const Task = require('../models/Task');
 
 // @route GET /api/projects
 const getProjects = async (req, res) => {
@@ -8,10 +9,15 @@ const getProjects = async (req, res) => {
     if (req.user.role === 'Admin') {
       projects = await Project.find().populate('owner', 'name email').populate('members.user', 'name email');
     } else {
+      // Find all tasks assigned to the user to find project IDs they are involved in
+      const assignedTasks = await Task.find({ assignedTo: req.user._id }, 'project');
+      const assignedProjectIds = assignedTasks.map(t => t.project);
+
       projects = await Project.find({
         $or: [
           { owner: req.user._id },
-          { 'members.user': req.user._id }
+          { 'members.user': req.user._id },
+          { _id: { $in: assignedProjectIds } }
         ]
       }).populate('owner', 'name email').populate('members.user', 'name email');
     }
@@ -97,6 +103,10 @@ const addMember = async (req, res) => {
     const { email, role } = req.body;
     const project = await Project.findById(req.params.id);
     if (!project) return res.status(404).json({ message: 'Project not found' });
+
+    if (project.owner.toString() !== req.user._id.toString() && req.user.role !== 'Admin') {
+      return res.status(403).json({ message: 'Not authorized to add members' });
+    }
 
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ message: 'User not found' });

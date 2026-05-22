@@ -58,7 +58,19 @@ const updateTask = async (req, res) => {
     const task = await Task.findById(req.params.id);
     if (!task) return res.status(404).json({ message: 'Task not found' });
 
-    const updated = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    let updateData = req.body;
+
+    // If the user is not an Admin, they can only update the status field
+    if (req.user.role !== 'Admin') {
+      const updates = Object.keys(req.body);
+      const isOnlyStatusUpdate = updates.every(key => key === 'status');
+      if (!isOnlyStatusUpdate) {
+        return res.status(403).json({ message: 'Members can only change task status' });
+      }
+      updateData = { status: req.body.status };
+    }
+
+    const updated = await Task.findByIdAndUpdate(req.params.id, updateData, { new: true })
       .populate('assignedTo', 'name email')
       .populate('createdBy', 'name email');
 
@@ -95,23 +107,38 @@ const getDashboardStats = async (req, res) => {
     if (req.user.role === 'Admin') {
       projects = await Project.find({}, '_id');
     } else {
+      // Find all tasks assigned to the user to find project IDs they are involved in
+      const assignedTasks = await Task.find({ assignedTo: userId }, 'project');
+      const assignedProjectIds = assignedTasks.map(t => t.project);
+
       projects = await Project.find({
         $or: [
           { owner: userId },
-          { 'members.user': userId }
+          { 'members.user': userId },
+          { _id: { $in: assignedProjectIds } }
         ]
       }, '_id');
     }
     const projectIds = projects.map(p => p._id);
 
-    // Find tasks belonging to those projects
-    const myTasks = await Task.find({ project: { $in: projectIds } });
+    // Find tasks belonging to those projects OR assigned to the user
+    const myTasks = await Task.find({
+      $or: [
+        { assignedTo: userId },
+        { project: { $in: projectIds } }
+      ]
+    });
     const totalTasks = myTasks.length;
     const doneTasks = myTasks.filter(t => t.status === 'Done').length;
     const inProgressTasks = myTasks.filter(t => t.status === 'In Progress').length;
     const overdueTasks = myTasks.filter(t => t.dueDate && new Date(t.dueDate) < new Date() && t.status !== 'Done').length;
 
-    const recentTasks = await Task.find({ project: { $in: projectIds } })
+    const recentTasks = await Task.find({
+      $or: [
+        { assignedTo: userId },
+        { project: { $in: projectIds } }
+      ]
+    })
       .sort({ updatedAt: -1 })
       .limit(5)
       .populate('project', 'name');

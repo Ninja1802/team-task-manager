@@ -124,14 +124,16 @@ const ProjectDetail = () => {
           <h2 className="page-title">{project.name}</h2>
           {project.description && <p className="page-subtitle">{project.description}</p>}
         </div>
-        <div style={{ display: 'flex', gap: 10 }}>
-          <button className="btn btn-outline" onClick={() => setShowMemberModal(true)}>
-            <UserPlus size={16} /> Add Member
-          </button>
-          <button className="btn btn-primary" onClick={() => { setEditTask(null); setTaskForm({ title: '', description: '', assignedTo: '', priority: 'Medium', dueDate: '', status: 'Todo' }); setShowTaskModal(true); }}>
-            <Plus size={16} /> Add Task
-          </button>
-        </div>
+        {(user?.role === 'Admin' || project.owner?._id === user?._id) && (
+          <div style={{ display: 'flex', gap: 10 }}>
+            <button className="btn btn-outline" onClick={() => setShowMemberModal(true)}>
+              <UserPlus size={16} /> Add Member
+            </button>
+            <button className="btn btn-primary" onClick={() => { setEditTask(null); setTaskForm({ title: '', description: '', assignedTo: '', priority: 'Medium', dueDate: '', status: 'Todo' }); setShowTaskModal(true); }}>
+              <Plus size={16} /> Add Task
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Members */}
@@ -164,8 +166,8 @@ const ProjectDetail = () => {
                 <TaskCard
                   key={task._id}
                   task={task}
-                  onEdit={openEditTask}
-                  onDelete={handleDeleteTask}
+                  onEdit={(user?.role === 'Admin' || project.owner?._id === user?._id) ? openEditTask : null}
+                  onDelete={(user?.role === 'Admin' || project.owner?._id === user?._id) ? handleDeleteTask : null}
                   onStatusChange={handleStatusChange}
                 />
               ))}

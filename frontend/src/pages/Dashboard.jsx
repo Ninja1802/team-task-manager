@@ -114,7 +114,7 @@ const Dashboard = () => {
         {!stats?.recentTasks?.length ? (
           <div className="empty-state">
             <CheckCircle size={40} color="var(--text-muted)" />
-            <p>No tasks assigned yet. Get started by creating a project!</p>
+            <p>{user?.role === 'Admin' ? 'No tasks assigned yet. Get started by creating a project!' : 'No tasks assigned yet.'}</p>
           </div>
         ) : (
           <div className="recent-tasks-list">
