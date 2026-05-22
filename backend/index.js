@@ -37,7 +37,7 @@ app.use(express.json());
 
 // Routes
 app.get('/', (req, res) => {
-  res.send('Team Task Manager API is running!');
+  res.send('Team Task Manager API is running! [Build: CORS_Robust_v2]');
 });
 
 app.use('/api/auth', authRoutes);
