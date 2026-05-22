@@ -64,7 +64,7 @@
   width: 24px;
   height: 24px;
   border-radius: 6px;
-  background: linear-gradient(135deg, var(--primary), var(--violet));
+  background: linear-gradient(135deg, var(--primary), var(--amber));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -94,6 +94,7 @@
   border-radius: var(--radius-lg);
   overflow: hidden;
   backdrop-filter: blur(20px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .kanban-col-header {

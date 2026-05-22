@@ -8,7 +8,7 @@
   left: 0;
   width: var(--sidebar-width);
   height: 100vh;
-  background: rgba(13, 17, 23, 0.95);
+  background: rgba(6, 18, 8, 0.96);
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
@@ -28,8 +28,8 @@
   background: linear-gradient(
     to bottom,
     transparent,
-    rgba(99, 102, 241, 0.4) 30%,
-    rgba(34, 211, 238, 0.2) 70%,
+    var(--primary-glow) 30%,
+    rgba(16, 185, 129, 0.2) 70%,
     transparent
   );
 }
@@ -52,7 +52,7 @@
 .logo-icon {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, var(--primary), #4338ca);
+  background: linear-gradient(135deg, var(--primary), #047857);
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -69,7 +69,7 @@
   font-family: var(--font-heading);
   font-size: 18px;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--text-primary), var(--violet));
+  background: linear-gradient(135deg, var(--text-primary), var(--emerald));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -107,8 +107,8 @@
 
 .nav-item.active {
   color: var(--text-primary);
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(99, 102, 241, 0.05));
-  border: 1px solid rgba(99, 102, 241, 0.25);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.05));
+  border: 1px solid rgba(16, 185, 129, 0.25);
 }
 
 .nav-item.active::before {

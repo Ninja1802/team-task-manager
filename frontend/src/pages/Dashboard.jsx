@@ -10,34 +10,38 @@ const statCards = [
     key: 'totalTasks',
     label: 'Total Tasks',
     icon: <ListTodo size={22} color="white" />,
-    gradient: 'linear-gradient(135deg, #6366f1, #4338ca)',
-    glow: 'rgba(99, 102, 241, 0.5)',
+    gradient: 'linear-gradient(135deg, #10b981, #065f46)',
+    glow: 'rgba(16, 185, 129, 0.4)',
+    glowClass: 'glow-green',
   },
   {
     key: 'inProgressTasks',
     label: 'In Progress',
     icon: <Clock size={22} color="white" />,
-    gradient: 'linear-gradient(135deg, #22d3ee, #0891b2)',
-    glow: 'rgba(34, 211, 238, 0.5)',
+    gradient: 'linear-gradient(135deg, #f59e0b, #92400e)',
+    glow: 'rgba(245, 158, 11, 0.4)',
+    glowClass: 'glow-yellow',
   },
   {
     key: 'doneTasks',
     label: 'Completed',
     icon: <CheckCircle size={22} color="white" />,
-    gradient: 'linear-gradient(135deg, #34d399, #059669)',
-    glow: 'rgba(52, 211, 153, 0.5)',
+    gradient: 'linear-gradient(135deg, #34d399, #047857)',
+    glow: 'rgba(52, 211, 153, 0.4)',
+    glowClass: 'glow-green',
   },
   {
     key: 'overdueTasks',
     label: 'Overdue',
     icon: <AlertTriangle size={22} color="white" />,
-    gradient: 'linear-gradient(135deg, #f87171, #dc2626)',
-    glow: 'rgba(248, 113, 113, 0.5)',
+    gradient: 'linear-gradient(135deg, #f43f5e, #9f1239)',
+    glow: 'rgba(244, 63, 94, 0.4)',
+    glowClass: 'glow-red',
   },
 ];
 
-const StatCard = ({ icon, label, value, gradient, glow }) => (
-  <div className="stat-card">
+const StatCard = ({ icon, label, value, gradient, glow, glowClass }) => (
+  <div className={`stat-card ${glowClass}`}>
     <div
       className="stat-icon"
       style={{
@@ -97,6 +101,7 @@ const Dashboard = () => {
             value={stats?.[card.key]}
             gradient={card.gradient}
             glow={card.glow}
+            glowClass={card.glowClass}
           />
         ))}
       </div>

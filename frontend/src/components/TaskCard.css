@@ -30,9 +30,19 @@
 .task-card.priority-high::before   { background: var(--red);     box-shadow: 0 0 8px var(--red-glow); }
 
 .task-card:hover {
-  border-color: var(--border-hover);
   transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.4), 0 0 15px rgba(99,102,241,0.05);
+}
+.task-card.priority-low:hover {
+  border-color: var(--emerald);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 15px var(--emerald-glow);
+}
+.task-card.priority-medium:hover {
+  border-color: var(--amber);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 15px var(--amber-glow);
+}
+.task-card.priority-high:hover {
+  border-color: var(--red);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 15px var(--red-glow);
 }
 
 /* Task Header */
@@ -158,7 +168,7 @@
   width: 22px;
   height: 22px;
   border-radius: 6px;
-  background: linear-gradient(135deg, var(--cyan), #0891b2);
+  background: linear-gradient(135deg, var(--primary), #064e3b);
   display: flex;
   align-items: center;
   justify-content: center;

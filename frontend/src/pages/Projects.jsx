@@ -84,7 +84,7 @@ const Projects = () => {
       ) : (
         <div className="projects-grid">
           {projects.map(project => (
-            <div key={project._id} className="project-card">
+            <div key={project._id} className={`project-card ${project.status === 'Completed' ? 'glow-green' : project.status === 'Active' ? 'glow-yellow' : 'glow-red'}`}>
               <div className="project-card-header">
                 <div className="project-icon">
                   <Folder size={20} color="white" />

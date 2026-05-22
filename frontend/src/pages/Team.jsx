@@ -46,7 +46,7 @@ const Team = () => {
 
       <div className="team-grid">
         {users.map(u => (
-          <div key={u._id} className="team-card">
+          <div key={u._id} className={`team-card ${u.role === 'Admin' ? 'glow-green' : 'glow-yellow'}`}>
             <div className="team-avatar">{getInitials(u.name)}</div>
             <div className="team-info">
               <h3 className="team-name">{u.name} {u._id === user?._id && <span className="you-tag">You</span>}</h3>

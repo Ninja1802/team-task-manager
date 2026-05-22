@@ -149,13 +149,13 @@ const ProjectDetail = () => {
       {/* Kanban Board */}
       <div className="kanban-board">
         {[
-          { title: 'To Do', tasks: todoTasks, color: '#64748b' },
-          { title: 'In Progress', tasks: progressTasks, color: '#2563eb' },
-          { title: 'Done', tasks: doneTasks, color: '#16a34a' }
+          { title: 'To Do', tasks: todoTasks, color: '#f43f5e', glowClass: 'glow-red' },
+          { title: 'In Progress', tasks: progressTasks, color: '#f59e0b', glowClass: 'glow-yellow' },
+          { title: 'Done', tasks: doneTasks, color: '#10b981', glowClass: 'glow-green' }
         ].map(col => (
-          <div key={col.title} className="kanban-col">
+          <div key={col.title} className={`kanban-col ${col.glowClass}`}>
             <div className="kanban-col-header">
-              <span className="kanban-col-dot" style={{ background: col.color }}></span>
+              <span className="kanban-col-dot" style={{ background: col.color, color: col.color }}></span>
               <h3>{col.title}</h3>
               <span className="kanban-count">{col.tasks.length}</span>
             </div>

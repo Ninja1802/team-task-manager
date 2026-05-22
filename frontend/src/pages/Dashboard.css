@@ -30,13 +30,13 @@
   inset: 0;
   opacity: 0;
   transition: opacity 0.3s;
-  background: linear-gradient(135deg, rgba(99,102,241,0.04), transparent);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.04), transparent);
 }
 
 .stat-card:hover {
   border-color: var(--border-hover);
   transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 20px rgba(99,102,241,0.05);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 20px var(--primary-glow);
 }
 
 .stat-card:hover::before {
