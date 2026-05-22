@@ -17,7 +17,6 @@ const Landing = () => {
         </div>
         <nav className="landing-nav">
           <a href="#features">Features</a>
-          <a href="#workflow">Workflow</a>
         </nav>
         <div className="landing-auth-buttons">
           {user ? (
@@ -42,14 +41,14 @@ const Landing = () => {
         <div className="hero-content">
           <div className="hero-tag">
             <span className="pulse-dot green"></span>
-            Version 2.0 Cyber Edition
+            Collaborative task management for teams
           </div>
           <h1>
-            The Next-Gen <br />
-            <span className="gradient-text-green">Team Task Orchestrator</span>
+            Keep your team organized <br />
+            <span className="gradient-text-green">and projects on track</span>
           </h1>
           <p className="hero-subtitle">
-            A high-performance workspace featuring matrix-dark aesthetics, glassmorphic Kanban boards, role-based controls, and glowing urgency alerts.
+            A clean, modern workspace for managing projects, tracking tasks, and collaborating with your team in real time.
           </p>
           <div className="hero-ctas">
             <Link to={user ? "/dashboard" : "/register"} className="btn btn-primary btn-lg hero-btn-primary glow-green">
@@ -108,30 +107,30 @@ const Landing = () => {
 
       {/* Features Grid */}
       <section id="features" className="landing-features">
-        <h2 className="section-title">Engineered for Flow State</h2>
+        <h2 className="section-title">Everything you need to work together</h2>
         <div className="features-grid">
           <div className="card feature-card glow-green">
             <div className="feature-icon-wrapper green-glow">
               <Kanban size={24} className="feature-icon green" />
             </div>
-            <h3>Kanban Boards</h3>
-            <p>Drag, drop, and monitor tasks in structured status lanes. Instantly view task distributions in real-time.</p>
+            <h3>Visual Kanban Boards</h3>
+            <p>Organize your tasks visually. Move tasks between columns as they progress and see what everyone is working on.</p>
           </div>
 
           <div className="card feature-card glow-yellow">
             <div className="feature-icon-wrapper yellow-glow">
               <Users size={24} className="feature-icon yellow" />
             </div>
-            <h3>Role-Based Access</h3>
-            <p>Distinguish Admins and Members dynamically. Grant scoped project privileges and manage team accounts securely.</p>
+            <h3>Team Roles</h3>
+            <p>Control who has access to what. Assign Admin or Member roles to team members to manage permissions easily.</p>
           </div>
 
           <div className="card feature-card glow-red">
             <div className="feature-icon-wrapper red-glow">
               <ShieldAlert size={24} className="feature-icon red" />
             </div>
-            <h3>Urgency Glows</h3>
-            <p>Tasks adapt color indicators: Red for High/Overdue, Yellow for Medium, Green for Completed. Never lose tracking focus.</p>
+            <h3>Clear Priorities</h3>
+            <p>Set clear deadlines and priorities (High, Medium, Low) for every task so your team knows what to work on first.</p>
           </div>
         </div>
       </section>
