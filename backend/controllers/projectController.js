@@ -57,6 +57,20 @@ const getProjectById = async (req, res) => {
 
     if (!project) return res.status(404).json({ message: 'Project not found' });
 
+    if (req.user.role !== 'Admin') {
+      const ownerId = project.owner?._id ? project.owner._id.toString() : project.owner?.toString();
+      const isOwner = ownerId === req.user._id.toString();
+      const isMember = project.members?.some(m => {
+        const memberUserId = m.user?._id ? m.user._id.toString() : m.user?.toString();
+        return memberUserId === req.user._id.toString();
+      });
+      const hasAssignedTask = await Task.exists({ project: project._id, assignedTo: req.user._id });
+
+      if (!isOwner && !isMember && !hasAssignedTask) {
+        return res.status(403).json({ message: 'Not authorized to view this project' });
+      }
+    }
+
     res.json(project);
   } catch (error) {
     res.status(500).json({ message: error.message });

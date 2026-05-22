@@ -9,6 +9,10 @@ const getTasks = async (req, res) => {
     if (req.query.status) filter.status = req.query.status;
     if (req.query.assignedTo) filter.assignedTo = req.query.assignedTo;
 
+    if (req.user.role !== 'Admin') {
+      filter.assignedTo = req.user._id;
+    }
+
     const tasks = await Task.find(filter)
       .populate('assignedTo', 'name email')
       .populate('createdBy', 'name email')
@@ -121,27 +125,27 @@ const getDashboardStats = async (req, res) => {
     }
     const projectIds = projects.map(p => p._id);
 
-    // Find tasks belonging to those projects OR assigned to the user
-    const myTasks = await Task.find({
-      $or: [
-        { assignedTo: userId },
-        { project: { $in: projectIds } }
-      ]
-    });
+    let myTasks;
+    let recentTasks;
+
+    if (req.user.role === 'Admin') {
+      myTasks = await Task.find({ project: { $in: projectIds } });
+      recentTasks = await Task.find({ project: { $in: projectIds } })
+        .sort({ updatedAt: -1 })
+        .limit(5)
+        .populate('project', 'name');
+    } else {
+      myTasks = await Task.find({ assignedTo: userId });
+      recentTasks = await Task.find({ assignedTo: userId })
+        .sort({ updatedAt: -1 })
+        .limit(5)
+        .populate('project', 'name');
+    }
+
     const totalTasks = myTasks.length;
     const doneTasks = myTasks.filter(t => t.status === 'Done').length;
     const inProgressTasks = myTasks.filter(t => t.status === 'In Progress').length;
     const overdueTasks = myTasks.filter(t => t.dueDate && new Date(t.dueDate) < new Date() && t.status !== 'Done').length;
-
-    const recentTasks = await Task.find({
-      $or: [
-        { assignedTo: userId },
-        { project: { $in: projectIds } }
-      ]
-    })
-      .sort({ updatedAt: -1 })
-      .limit(5)
-      .populate('project', 'name');
 
     res.json({ totalTasks, doneTasks, inProgressTasks, overdueTasks, recentTasks });
   } catch (error) {
